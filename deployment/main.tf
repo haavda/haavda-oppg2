@@ -6,10 +6,10 @@ terraform {
     }
   }
   backend "azurerm" {
-    resource_group_name  = "rg-backend-haavda"  
-    storage_account_name = "sabackend3nb27xoogv"  
-    container_name       = "sc-backend-haavda"                  
-    key                  = "oblig2.terraform.tfstate"      
+    resource_group_name  = "rg-backend-haavda"
+    storage_account_name = "sabackenddz0y2pebg3"
+    container_name       = "sc-backend-haavda"
+    key                  = "oblig2.terraform.tfstate"
   }
 }
 
@@ -21,7 +21,7 @@ provider "azurerm" {
 
 # Resource Group for all resources
 resource "azurerm_resource_group" "rg" {
-  name     = "${var.rg_name}-${random_string.random_string.result}"
+  name     = "${var.rgname}-${random_string.random_string.result}"
   location = var.location
 }
 
@@ -33,32 +33,38 @@ resource "random_string" "random_string" {
 
 #The Network Module
 module "networking" {
-  source     = "./modules/networking"
+  source     = "../modules/networking"
   rgname     = azurerm_resource_group.rg.name
   location   = azurerm_resource_group.rg.location
-  //TODO
+  nsgname    = var.nsgname
+  vnetname   = var.vnetname
+  subnetname = var.subnetname
 }
 
-module "app_service" {
-  source = "./modules/app_service"
-  rgname     = azurerm_resource_group.rg.name
-  location   = azurerm_resource_group.rg.location
-  //TODO
-}
+# Comment out app_service module
+# module "app_service" {
+#   source = "./modules/app_service"
+#   rgname = azurerm_resource_group.rg.name
+#   location = azurerm_resource_group.rg.location
+#   //TODO
+# }
 
-module "database" {
-  source = "./modules/database"
-  rgname     = azurerm_resource_group.rg.name
-  location   = azurerm_resource_group.rg.location
-  //TODO
-}
+# Comment out database module
+# module "database" {
+#   source = "./modules/database"
+#   rgname = azurerm_resource_group.rg.name
+#   location = azurerm_resource_group.rg.location
+#   //TODO
+# }
 
-module "storage" {
-  source = "./modules/storage"
-  rgname     = azurerm_resource_group.rg.name
-  location   = azurerm_resource_group.rg.location
-  //TODO
-}
+# Comment out storage module
+# module "storage" {
+#   source = "./modules/storage"
+#   rgname = azurerm_resource_group.rg.name
+#   location = azurerm_resource_group.rg.location
+#   //TODO
+# }
+
 
 
 

@@ -1,2 +1,5 @@
-rg_name = "rg-haavda-oblig"
+rgname = "rg-haavda-oblig"
 location = "westeurope"
+nsgname    = "my-ecommerce-nsg"
+vnetname   = "my-ecommerce-vnet"
+subnetname = "my-ecommerce-subnet"

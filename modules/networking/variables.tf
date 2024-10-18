@@ -1,14 +1,3 @@
-variable "rgname" {
-  type        = string
-  description = "The resource group name"
-}
-
-variable "location" {
-  type        = string
-  description = "location"
-}
-
-#Variables for the networking module
 variable "nsgname" {
   type        = string
   description = "The name of the network security group"
@@ -22,4 +11,14 @@ variable "vnetname" {
 variable "subnetname" {
   type        = string
   description = "The name of the subnet"
+}
+
+variable "rgname" {
+  type = string
+  description = "The resource group name"
+}
+
+variable "location" {
+  type = string
+  description = "location"
 }
