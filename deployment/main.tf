@@ -58,12 +58,14 @@ module "networking" {
 # }
 
 # Comment out storage module
-# module "storage" {
-#   source = "./modules/storage"
-#   rgname = azurerm_resource_group.rg.name
-#   location = azurerm_resource_group.rg.location
-#   //TODO
-# }
+module "storage" {
+  source        = "../modules/storage"
+  rgname        = azurerm_resource_group.rg.name
+  location      = azurerm_resource_group.rg.location
+  saname        = var.saname
+  scname        = var.scname
+  random_string = random_string.random_string.result
+}
 
 
 

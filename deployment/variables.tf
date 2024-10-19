@@ -23,3 +23,14 @@ variable "subnetname" {
   type        = string
   description = "The name of the subnet"
 }
+
+#Variables for the storage module
+variable "saname" {
+  type        = string
+  description = "The name of the Storage Account"
+}
+
+variable "scname" {
+  type        = string
+  description = "The name of the Storage Container"
+}
