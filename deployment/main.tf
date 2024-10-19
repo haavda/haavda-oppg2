@@ -57,7 +57,7 @@ module "networking" {
 #   //TODO
 # }
 
-# Comment out storage module
+# The Storage Module
 module "storage" {
   source        = "../modules/storage"
   rgname        = azurerm_resource_group.rg.name
