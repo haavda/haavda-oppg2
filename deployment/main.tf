@@ -41,13 +41,14 @@ module "networking" {
   subnetname = var.subnetname
 }
 
-# Comment out app_service module
-# module "app_service" {
-#   source = "./modules/app_service"
-#   rgname = azurerm_resource_group.rg.name
-#   location = azurerm_resource_group.rg.location
-#   //TODO
-# }
+#The app_service module
+module "app_service" {
+  source            = "../modules/app_service"
+  rgname            = azurerm_resource_group.rg.name
+  location          = azurerm_resource_group.rg.location
+  service_plan_name = var.service_plan_name
+  random_string     = random_string.random_string.result
+}
 
 # Comment out database module
 # module "database" {

@@ -34,3 +34,9 @@ variable "scname" {
   type        = string
   description = "The name of the Storage Container"
 }
+
+#Variables for the app_service module
+variable "service_plan_name" {
+  type        = string
+  description = "The name of the service plan"
+}
