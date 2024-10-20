@@ -26,9 +26,9 @@ resource "azurerm_mssql_database" "sql_database" {
   }
 
   # prevent the possibility of accidental data loss
-  lifecycle {
-    prevent_destroy = true
-  }
+  #lifecycle {
+  #  prevent_destroy = true
+  # }
 }
 
 
