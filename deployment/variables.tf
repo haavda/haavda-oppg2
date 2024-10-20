@@ -8,6 +8,11 @@ variable "location" {
   description = "location"
 }
 
+variable "environment" {
+  type        = string
+  description = "The environment name (dev, staging, prod)"
+}
+
 #Variables for the networking module
 variable "nsgname" {
   type        = string
@@ -63,7 +68,18 @@ variable "admin_password" {
   sensitive   = true
 }
 
-variable "environment" {
-  type        = string
-  description = "The environment name (dev, staging, prod)"
+#Variables for the load_balancer module
+variable "public_ip_lb_name" {
+  type = string
+  description = "Name of the Public IP of the LB"
+}
+
+variable "lb_name" {
+  type = string
+  description = "Name of the Load Balancer"
+}
+
+variable "fip_conf_name" {
+  type = string
+  description = "Name of the frontend ip configuration"
 }
