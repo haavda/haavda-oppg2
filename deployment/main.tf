@@ -75,14 +75,14 @@ module "storage" {
 
 # The load_balancer module
 module "load_balancer" {
-  source = "../modules/load_balancer"
-  rgname        = azurerm_resource_group.rg.name
-  location      = azurerm_resource_group.rg.location
+  source            = "../modules/load_balancer"
+  rgname            = azurerm_resource_group.rg.name
+  location          = azurerm_resource_group.rg.location
   environment       = var.environment
-  random_string = random_string.random_string.result
+  random_string     = random_string.random_string.result
   public_ip_lb_name = var.public_ip_lb_name
-  lb_name = var.lb_name
-  fip_conf_name = var.fip_conf_name
+  lb_name           = var.lb_name
+  fip_conf_name     = var.fip_conf_name
 }
 
 
