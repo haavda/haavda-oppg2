@@ -70,16 +70,16 @@ variable "admin_password" {
 
 #Variables for the load_balancer module
 variable "public_ip_lb_name" {
-  type = string
+  type        = string
   description = "Name of the Public IP of the LB"
 }
 
 variable "lb_name" {
-  type = string
+  type        = string
   description = "Name of the Load Balancer"
 }
 
 variable "fip_conf_name" {
-  type = string
+  type        = string
   description = "Name of the frontend ip configuration"
 }
