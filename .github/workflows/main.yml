@@ -7,18 +7,19 @@ on:
       - staging
       - prod
 
+env:
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  ENVIRONMENT: ${{ github.ref_name }}
+
 jobs:
   terraform:
     runs-on: ubuntu-22.04
-    
-    name: 'Terraform Deploy for ${{ github.ref }}'
+    if: github.ref != 'refs/heads/prod'  # Ensures this only runs for dev and staging
 
-    env:
-      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      ENVIRONMENT: ${{ github.ref_name }}
+    name: 'Terraform Deploy for ${{ github.ref }}'
 
     steps:
       - name: Checkout code
@@ -40,17 +41,15 @@ jobs:
         run: terraform plan -var-file=terraform.tfvars.${{ github.ref_name }} -out=main.tfplan
         working-directory: ./deployment
 
-      # Apply in dev and staging without manual approval
-      #- name: Terraform Apply
-      #  if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/staging'
-      #  run: terraform apply -auto-approve main.tfplan
-      #  working-directory: ./deployment
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/staging'
+        run: terraform apply -auto-approve main.tfplan
+        working-directory: ./deployment
 
-      # Apply in prod, but require manual approval first
   deploy_prod:
-    if: github.ref == 'refs/heads/prod'
+    if: github.ref == 'refs/heads/prod'  # This job runs only for production
     environment:
-      name: production # This will enforce manual approval for production
+      name: production  # This will trigger manual approval for production
     runs-on: ubuntu-22.04
 
     steps:
@@ -73,7 +72,6 @@ jobs:
         run: terraform plan -var-file=terraform.tfvars.${{ github.ref_name }} -out=main.tfplan
         working-directory: ./deployment
 
-      #- name: Terraform Apply for Prod
-      #  run: terraform apply -auto-approve main.tfplan
-      #  working-directory: ./deployment
-
+      # - name: Terraform Apply for Prod
+      #   run: terraform apply -auto-approve main.tfplan
+      #   working-directory: ./deployment
