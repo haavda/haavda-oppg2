@@ -1,6 +1,5 @@
 name: CI/CD Terraform Pipeline
 
-# This workflow runs on push events to the dev, staging, or prod branches
 on:
   push:
     branches:
@@ -8,31 +7,28 @@ on:
       - staging
       - prod
 
+env:
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  ENVIRONMENT: ${{ github.ref_name }}
+
 jobs:
   terraform:
     runs-on: ubuntu-22.04
-    
-    # Setting the name dynamically based on the branch
+    if: github.ref != 'refs/heads/prod'  # Ensures this only runs for dev and staging
+
     name: 'Terraform Deploy for ${{ github.ref }}'
 
-    env:
-      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      ENVIRONMENT: ${{ github.ref_name }}
-
     steps:
-      # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Terraform Init - Initialize the Terraform workspace
       - name: Terraform Init
         run: terraform init
         working-directory: ./deployment
 
-      # Format and validate the Terraform code
       - name: Terraform Fmt
         run: terraform fmt -check
         working-directory: ./deployment
@@ -41,21 +37,41 @@ jobs:
         run: terraform validate
         working-directory: ./deployment
 
-      # Terraform Plan - Generate and display an execution plan
       - name: Terraform Plan
         run: terraform plan -var-file=terraform.tfvars.${{ github.ref_name }} -out=main.tfplan
         working-directory: ./deployment
 
-      # Terraform Apply - Apply the changes if in dev or staging
-      - name: Terraform Apply
-        if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/staging'
-        run: terraform apply -auto-approve main.tfplan
+      #- name: Terraform Apply
+      #  if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/staging'
+      #  run: terraform apply -auto-approve main.tfplan
+      #  working-directory: ./deployment
+
+  deploy_prod:
+    if: github.ref == 'refs/heads/prod'  # This job runs only for production
+    environment:
+      name: production  # This will trigger manual approval for production
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Terraform Init for Prod
+        run: terraform init
         working-directory: ./deployment
 
-      # For prod, require manual approval
-      # - name: Require Approval for Prod
-      #  if: github.ref == 'refs/heads/prod'
-      #  uses: superbrothers/merge-pull-request-action@v4
-      #  with:
-      #    github_token: ${{ secrets.GITHUB_TOKEN }}
-      #    approve: true
+      - name: Terraform Fmt
+        run: terraform fmt -check
+        working-directory: ./deployment
+
+      - name: Terraform Validate
+        run: terraform validate
+        working-directory: ./deployment
+
+      - name: Terraform Plan for Prod
+        run: terraform plan -var-file=terraform.tfvars.${{ github.ref_name }} -out=main.tfplan
+        working-directory: ./deployment
+
+      # - name: Terraform Apply for Prod
+      #   run: terraform apply -auto-approve main.tfplan
+      #   working-directory: ./deployment
