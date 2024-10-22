@@ -37,12 +37,12 @@ jobs:
         run: terraform validate
         working-directory: ./deployment
 
-      - name: Run tfsec
-        run: |
-          tfsec --include-passed --soft-fail \
-          --ignore MEDIUM --ignore LOW
-        working-directory: ./deployment
-
+      - name: tfsec
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          working_directory: ./deployment
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          args: --severity-high --severity-critical
 
       - name: Terraform Plan
         run: terraform plan -var-file=terraform.tfvars.${{ github.ref_name }} -out=main.tfplan
@@ -75,12 +75,12 @@ jobs:
         run: terraform validate
         working-directory: ./deployment
 
-      - name: Run tfsec
-        run: |
-          tfsec --include-passed --soft-fail \
-          --ignore MEDIUM --ignore LOW
-        working-directory: ./deployment
-
+    - name: tfsec
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          working_directory: ./deployment
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          args: --severity-high --severity-critical
 
       - name: Terraform Plan for Prod
         run: terraform plan -var-file=terraform.tfvars.${{ github.ref_name }} -out=main.tfplan
