@@ -17,7 +17,7 @@ env:
 jobs:
   terraform:
     runs-on: ubuntu-22.04
-    if: github.ref != 'refs/heads/prod'  # Ensures this only runs for dev and staging
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/staging' # This runs only for dev and staging
 
     name: 'Terraform Deploy for ${{ github.ref }}'
 
@@ -37,14 +37,20 @@ jobs:
         run: terraform validate
         working-directory: ./deployment
 
+      - name: tfsec
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          working_directory: ./deployment
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Terraform Plan
         run: terraform plan -var-file=terraform.tfvars.${{ github.ref_name }} -out=main.tfplan
         working-directory: ./deployment
 
-      - name: Terraform Apply
-        if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/staging'
-        run: terraform apply -auto-approve main.tfplan
-        working-directory: ./deployment
+      #- name: Terraform Apply
+      #  if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/staging'
+      #  run: terraform apply -auto-approve main.tfplan
+      #  working-directory: ./deployment
 
   deploy_prod:
     if: github.ref == 'refs/heads/prod'  # This job runs only for production
@@ -67,6 +73,12 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
         working-directory: ./deployment
+
+      - name: tfsec
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          working_directory: ./deployment
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Terraform Plan for Prod
         run: terraform plan -var-file=terraform.tfvars.${{ github.ref_name }} -out=main.tfplan

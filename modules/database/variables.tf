@@ -38,3 +38,13 @@ variable "random_string" {
   type        = string
   description = "Random string for unique names"
 }
+
+variable "storage_blob_endpoint" {
+  description = "The blob storage endpoint for audit logs"
+  type        = string
+}
+
+variable "storage_account_access_key" {
+  description = "The storage account access key for audit logs"
+  type        = string
+}
