@@ -17,3 +17,8 @@ variable "random_string" {
   type        = string
   description = "Random string for unique names"
 }
+
+variable "web_app_name" {
+  type        = string
+  description = "Name of the web app"
+}
