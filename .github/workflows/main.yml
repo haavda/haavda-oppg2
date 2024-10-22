@@ -17,7 +17,7 @@ env:
 jobs:
   terraform:
     runs-on: ubuntu-22.04
-    if: github.ref != 'refs/heads/prod'  # Ensures this only runs for dev and staging
+    if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/staging' # This runs only for dev and staging
 
     name: 'Terraform Deploy for ${{ github.ref }}'
 
@@ -36,6 +36,13 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
         working-directory: ./deployment
+
+      - name: Run tfsec
+        run: |
+          tfsec --include-passed --soft-fail \
+          --ignore MEDIUM --ignore LOW
+        working-directory: ./deployment
+
 
       - name: Terraform Plan
         run: terraform plan -var-file=terraform.tfvars.${{ github.ref_name }} -out=main.tfplan
@@ -67,6 +74,13 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
         working-directory: ./deployment
+
+      - name: Run tfsec
+        run: |
+          tfsec --include-passed --soft-fail \
+          --ignore MEDIUM --ignore LOW
+        working-directory: ./deployment
+
 
       - name: Terraform Plan for Prod
         run: terraform plan -var-file=terraform.tfvars.${{ github.ref_name }} -out=main.tfplan
