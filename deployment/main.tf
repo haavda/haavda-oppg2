@@ -52,15 +52,17 @@ module "app_service" {
 
 #The Database module
 module "database" {
-  source            = "../modules/database"
-  rgname            = azurerm_resource_group.rg.name
-  location          = azurerm_resource_group.rg.location
-  sql_server_name   = var.sql_server_name
-  sql_database_name = var.sql_database_name
-  admin_username    = var.admin_username
-  admin_password    = var.admin_password
-  random_string     = random_string.random_string.result
-  environment       = var.environment
+  source                     = "../modules/database"
+  rgname                     = azurerm_resource_group.rg.name
+  location                   = azurerm_resource_group.rg.location
+  sql_server_name            = var.sql_server_name
+  sql_database_name          = var.sql_database_name
+  admin_username             = var.admin_username
+  admin_password             = var.admin_password
+  random_string              = random_string.random_string.result
+  environment                = var.environment
+  storage_blob_endpoint      = module.storage.primary_blob_endpoint
+  storage_account_access_key = module.storage.primary_access_key
 }
 
 # The Storage Module

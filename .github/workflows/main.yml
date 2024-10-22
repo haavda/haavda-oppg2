@@ -42,7 +42,6 @@ jobs:
         with:
           working_directory: ./deployment
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          args: --severity-high --severity-critical --soft-fail
 
       - name: Terraform Plan
         run: terraform plan -var-file=terraform.tfvars.${{ github.ref_name }} -out=main.tfplan
@@ -80,7 +79,6 @@ jobs:
         with:
           working_directory: ./deployment
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          args: --severity-high --severity-critical --soft-fail
 
       - name: Terraform Plan for Prod
         run: terraform plan -var-file=terraform.tfvars.${{ github.ref_name }} -out=main.tfplan
