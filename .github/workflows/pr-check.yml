@@ -1,0 +1,31 @@
+name: PR Validation for Terraform
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - staging
+      - prod
+
+jobs:
+  validate_pr:
+    runs-on: ubuntu-22.04
+    name: 'Validate Terraform Code in PR'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Terraform Fmt Check
+        run: terraform fmt -check
+        working-directory: ./deployment
+
+      - name: Terraform Validate
+        run: terraform validate
+        working-directory: ./deployment
+
+      - name: Tfsec Check
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          working_directory: ./deployment
+          github_token: ${{ secrets.GITHUB_TOKEN }}

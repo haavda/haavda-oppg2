@@ -6,6 +6,7 @@ subnetname = "ecommerce-subnet-dev"
 saname = "saecommercedev"
 scname = "scecommerce-dev"
 service_plan_name = "ecommerce-service-plan-dev"
+web_app_name = "ecommerce-web-app-dev
 sql_server_name = "ecommerce-sqlserver-dev"
 sql_database_name     = "ecommerce-db-dev"
 admin_username     = "sqladmin"
