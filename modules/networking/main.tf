@@ -32,6 +32,7 @@ data "http" "my_public_ip" {
   url = "http://ipv4.icanhazip.com"
 }
 
+#Creating the network security rule
 resource "azurerm_network_security_rule" "ssh" {
   name                        = "SSH-Flexible-IP"
   priority                    = 101
