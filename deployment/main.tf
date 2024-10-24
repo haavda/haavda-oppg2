@@ -5,6 +5,12 @@ terraform {
       version = "4.1.0"
     }
   }
+  backend "azurerm" {
+    resource_group_name  = "rg-backend-haavda"
+    storage_account_name = "sabackenddz0y2pebg3"
+    container_name       = "sc-backend-haavda"
+    key                  = "prod.oblig2.terraform.tfstate"
+  }
 }
 
 provider "azurerm" {
@@ -20,7 +26,7 @@ resource "azurerm_resource_group" "rg" {
 }
 
 resource "random_string" "random_string" {
-  length  = 8
+  length  = 5
   special = false
   upper   = false
 }
