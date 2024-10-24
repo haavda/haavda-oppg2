@@ -37,6 +37,9 @@ The different modules I have implemented in my solution are:
 
 - For dev and staging, this workflows goes automaically. For prod you will recieve an email where you have to approve. 
 
+- To destroy the resources when done, you can just manually go to Azure Portal, click the correct resource group, and then "delete resource group" and every resource inside (as well as the resource group) will be deleted/destroyed. 
+
 ## GitHub Repo
 https://github.com/haavda/haavda-oppg2
+
 
