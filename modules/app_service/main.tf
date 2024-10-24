@@ -7,6 +7,7 @@ resource "azurerm_service_plan" "service_plan" {
   sku_name            = "P1v2"
 }
 
+#Creating a simple linux web app
 resource "azurerm_linux_web_app" "web_app" {
   name                = var.web_app_name
   resource_group_name = var.rgname

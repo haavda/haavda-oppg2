@@ -14,6 +14,7 @@ resource "azurerm_mssql_server" "sql_server" {
   }
 }
 
+# Creating a auditing policy to a tfsec warning
 resource "azurerm_mssql_server_extended_auditing_policy" "auditing_policy" {
   server_id                               = azurerm_mssql_server.sql_server.id
   storage_endpoint                        = var.storage_blob_endpoint
@@ -22,6 +23,7 @@ resource "azurerm_mssql_server_extended_auditing_policy" "auditing_policy" {
   retention_in_days                       = 100
 }
 
+# Creating the sql database
 resource "azurerm_mssql_database" "sql_database" {
   name         = "${var.sql_database_name}-${var.random_string}"
   server_id    = azurerm_mssql_server.sql_server.id

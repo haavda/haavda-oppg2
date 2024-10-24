@@ -25,6 +25,7 @@ resource "azurerm_resource_group" "rg" {
   location = var.location
 }
 
+# Creating a random string that could be used for unique names
 resource "random_string" "random_string" {
   length  = 5
   special = false
