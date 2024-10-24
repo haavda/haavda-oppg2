@@ -20,7 +20,7 @@ resource "azurerm_resource_group" "rg" {
 }
 
 resource "random_string" "random_string" {
-  length  = 8
+  length  = 5
   special = false
   upper   = false
 }
