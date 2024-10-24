@@ -47,10 +47,10 @@ jobs:
         run: terraform plan -var-file=terraform.tfvars.${{ github.ref_name }} -out=main.tfplan
         working-directory: ./deployment
 
-      #- name: Terraform Apply
-      #  if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/staging'
-      #  run: terraform apply -auto-approve main.tfplan
-      #  working-directory: ./deployment
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/staging'
+        run: terraform apply -auto-approve main.tfplan
+        working-directory: ./deployment
 
   deploy_prod:
     if: github.ref == 'refs/heads/prod'  # This job runs only for production
@@ -84,6 +84,6 @@ jobs:
         run: terraform plan -var-file=terraform.tfvars.${{ github.ref_name }} -out=main.tfplan
         working-directory: ./deployment
 
-      # - name: Terraform Apply for Prod
-      #   run: terraform apply -auto-approve main.tfplan
-      #   working-directory: ./deployment
+      - name: Terraform Apply for Prod
+        run: terraform apply -auto-approve main.tfplan
+        working-directory: ./deployment
