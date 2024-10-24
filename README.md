@@ -1,4 +1,20 @@
-# haavda-oppg2
+# E-commerce platform for OpenTerra
+
+## Task description
+The company, OpenTerra, is launching a new e-commerce platform. As a DevOps engineer, I am tasked with setting up the infrastructure on Microsoft Azure using Terraform. The platform requires a web application, a database for product information and user data, and a storage solution for product images.
+
+## The different modules
+The different modules I have implemented in my solution are:
+- networking
+    - This module is setting up a Virtual Network, a subnet, a network security group and subnet-nsg association. 
+- storage
+    - This module is setting up the Storage Account and the Storage Container. 
+- database
+    - This midule is setting up the a sql server with an auduting policy, as well as a sql database. 
+- load_balancer
+    - This module is setting up the load balancer with an public ip for the load balancer. 
+- app_service
+    - This module is setting up a simple service plan and a linux web app. 
 
 ## How the whole process works
 - You start of in one of the environment branches (dev/staging/prod), then you create a feature branch with the command: git checkout -b feature/name
@@ -23,4 +39,5 @@
 
 ## GitHub Repo
 https://github.com/haavda/haavda-oppg2
+
 
