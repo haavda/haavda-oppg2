@@ -47,6 +47,7 @@ module "app_service" {
   rgname            = azurerm_resource_group.rg.name
   location          = azurerm_resource_group.rg.location
   service_plan_name = var.service_plan_name
+  web_app_name      = var.web_app_name
   random_string     = random_string.random_string.result
 }
 

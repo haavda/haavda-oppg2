@@ -46,6 +46,11 @@ variable "service_plan_name" {
   description = "The name of the service plan"
 }
 
+variable "web_app_name" {
+  type        = string
+  description = "Name of the web app"
+}
+
 #Variables for the database module
 variable "sql_server_name" {
   type        = string
