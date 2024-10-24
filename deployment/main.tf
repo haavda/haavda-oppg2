@@ -5,6 +5,12 @@ terraform {
       version = "4.1.0"
     }
   }
+  backend "azurerm" {
+    resource_group_name  = "rg-backend-haavda"
+    storage_account_name = "sabackenddz0y2pebg3"
+    container_name       = "sc-backend-haavda"
+    key                  = "staging.oblig2.terraform.tfstate"
+  }
 }
 
 provider "azurerm" {
