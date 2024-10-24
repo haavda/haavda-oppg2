@@ -13,7 +13,7 @@ provider "azurerm" {
   }
 }
 
-# Resource Group for all resources 
+# Resource Group for all resources.
 resource "azurerm_resource_group" "rg" {
   name     = "${var.rgname}-${random_string.random_string.result}"
   location = var.location
