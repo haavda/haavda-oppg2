@@ -40,6 +40,10 @@ The different modules I have implemented in my solution are:
 - To destroy the resources when done, you can just manually go to Azure Portal, click the correct resource group, and then "delete resource group" and every resource inside (as well as the resource group) will be deleted/destroyed. 
 
 ## GitHub Repo
-https://github.com/haavda/haavda-oppg2
+https://github.com/haavda/haavda-oppg2/tree/dev
 
+(ignore the main branch, this is empty and not used. The prod branch works as the main branch.)
+
+## Potential Problem
+After the problem occoured with the app registrations getting leaked, and I had to create a new backend, there has sometimes occoured a problem when initalizing. If this happens, deleting the terraform files (.terraform and .terraform.lock.hcl) should fix it. 
 
